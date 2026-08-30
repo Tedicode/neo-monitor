@@ -13,9 +13,16 @@ export default function App() {
  const apiKey = process.env.EXPO_PUBLIC_NASA_API_KEY;
   // const apiKey = 'an invalid api key';
 
+  function formatDateForApi(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
  const fetchAsteroids = async (date: Date) => {
   
-   const dateString = date.toISOString().split('T')[0];
+   const dateString = formatDateForApi(date)
 
    try {
      const response = await fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${dateString}&end_date=${dateString}&api_key=${apiKey}`);
