@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useNeoFeed } from './hooks/useNeoFeed';
+import { FlatList } from 'react-native';
+import { NeoListItem } from './components/NeoListItem';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'
 
 export default function App() {
  const[selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -16,19 +19,28 @@ const { neos, loading, error } = useNeoFeed(selectedDate)
 
   
   return ( 
-    <View style={styles.container}>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
       {loading && <Text>Loading</Text>}
       {error && <Text>Error: {error}</Text>}
       {!loading && !error && (
         <>
      
           <Text style={styles.title}>Asteroid Monitor</Text>
-          <Text style={styles.subtitle}>Powered by NASA’s Open APIs</Text>
-          <Text style={styles.dateText}>{neos.length} objects found near Earth on {selectedDate.toDateString()}</Text>
           <DateTimePicker value={selectedDate} mode="date" onChange={onDateChange} accessibilityLabel="Select date to view near-Earth objects"/>
+          <Text style={styles.dateText}>{neos.length} objects found near Earth on {selectedDate.toDateString()}</Text>
+          <FlatList
+            data={neos}
+            keyExtractor={(item) => item.id}
+            renderItem={({item}) => <NeoListItem neo={item}/>}
+            style={{width: '100%'}}
+            ListEmptyComponent={<Text>No Asteroids found for this date</Text>}
+          />
+          <Text style={styles.subtitle}>Powered by NASA’s Open APIs</Text>
         </>
       )}
-   </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
  );
 }
 
