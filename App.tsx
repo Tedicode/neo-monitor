@@ -25,7 +25,7 @@ const { neos, loading, error } = useNeoFeed(selectedDate)
           <Text style={styles.title}>Asteroid Monitor</Text>
           <Text style={styles.subtitle}>Powered by NASA’s Open APIs</Text>
           <Text style={styles.dateText}>{neos.length} objects found near Earth on {selectedDate.toDateString()}</Text>
-          <DateTimePicker value={selectedDate} mode="date" onChange={onDateChange} />
+          <DateTimePicker value={selectedDate} mode="date" onChange={onDateChange} accessibilityLabel="Select date to view near-Earth objects"/>
         </>
       )}
    </View>
