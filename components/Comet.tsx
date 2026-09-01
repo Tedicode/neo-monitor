@@ -42,10 +42,12 @@ export function Comet() {
       style={[
         styles.comet,
         {
-        transform: [{ translateX }, { translateY }, { scaleY: -1 }, { scaleX: 1 }, { rotate: '75deg' }],
+          transform: [{ translateX }, { translateY }, { scaleY: -1 }, { scaleX: 1 }, { rotate: '75deg' }],
           opacity,
         },
       ]}
+      accessibilityElementsHidden={true}
+      importantForAccessibility="no-hide-descendants"
     >
       ☄️
     </Animated.Text>

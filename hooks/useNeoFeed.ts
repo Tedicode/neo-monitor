@@ -1,5 +1,5 @@
-import {useState, useEffect} from 'react';
-import { NearEarthObject } from "../types";
+import { useState, useEffect } from 'react';
+import { NearEarthObject } from '../types';
 
 
 

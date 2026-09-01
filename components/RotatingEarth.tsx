@@ -21,8 +21,12 @@ export function RotatingEarth() {
   });
 
   return (
-    <Animated.Text style={[styles.earth, { transform: [{ rotate: spin }] }]}>
-      🌍
+    <Animated.Text
+        style={[styles.earth, { transform: [{ rotate: spin }] }]}
+        accessibilityElementsHidden={true}
+        importantForAccessibility="no-hide-descendants"
+    >
+    🌍
     </Animated.Text>
   );
 }

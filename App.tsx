@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, FlatList } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { useNeoFeed } from './hooks/useNeoFeed';
-import { NeoListItem } from './components/NeoListItem';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { useNeoFeed } from './hooks/useNeoFeed';
 import { colors, spacing, fontSize } from './theme';
 import { Starfield } from './components/Starfield';
 import { ErrorState } from './components/ErrorState';
 import { EmptyState } from './components/EmptyState';
 import { DatePickerRow } from './components/DatePickerRow';
+import { NeoListItem } from './components/NeoListItem';
 
 export default function App() {
  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -40,7 +41,7 @@ export default function App() {
             <Text style={styles.title}>Asteroid Watch</Text>
             {neos.length > 0 && (
               <Text style={styles.dateText}>
-                {neos.length} objects found near Earth{'\n'} ({selectedDate.toDateString()})
+                {neos.length} objects approaching Earth{'\n'} ({selectedDate.toDateString()})
               </Text>
             )}
             <FlatList
