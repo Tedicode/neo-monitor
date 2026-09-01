@@ -31,7 +31,13 @@ export default function App() {
             <ActivityIndicator size="large" color={colors.accent} accessibilityLabel="Loading near-Earth objects" />
           </View>
         )}
-        {error && <Text>Error: {error}</Text>}
+        {error && (
+          <View style={styles.errorContainer} accessible={true} accessibilityLabel={`Lost the signal. ${error}`}>
+            <Text style={styles.errorEmoji}>🛰️</Text>
+            <Text style={styles.errorTitle}>Lost the signal</Text>
+            <Text style={styles.errorMessage}>{error}</Text>
+          </View>
+        )}
         {!loading && !error && (
           <>
             <Text style={styles.title}>Asteroid Watch</Text>
@@ -64,13 +70,22 @@ export default function App() {
                 </Pressable>
               )}
             </View>
-            <Text style={styles.dateText}>{neos.length} objects found near Earth on {selectedDate.toDateString()}</Text>
+            {neos.length > 0 && (
+              <Text style={styles.dateText}>
+                {neos.length} objects found near Earth{'\n'} ({selectedDate.toDateString()})
+              </Text>
+            )}
             <FlatList
               data={neos}
               keyExtractor={(item) => item.id}
               renderItem={({item}) => <NeoListItem neo={item}/>}
               style={styles.list}
-              ListEmptyComponent={<Text>No Asteroids found for this date</Text>}
+              ListEmptyComponent={
+                <View style={styles.emptyContainer} accessible={true} accessibilityLabel="No asteroids found for this date">
+                  <Text style={styles.emptyEmoji}>🔭</Text>
+                  <Text style={styles.emptyText}>No asteroids found for this date</Text>
+                </View>
+              }
               refreshing={refreshing}
               onRefresh={refetch}
             />
@@ -97,8 +112,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: fontSize.title,
     fontWeight: 'bold',
+    fontStyle: 'italic',
     color: colors.accent,
     textAlign: 'center',
+    letterSpacing: 2,
+    textShadowColor: colors.accent,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 12,
     marginTop: spacing.md,
     marginBottom: spacing.lg,
   },
@@ -134,5 +154,42 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: spacing.xl,
+  },
+  errorEmoji: {
+    fontSize: 40,
+    marginBottom: spacing.sm,
+  },
+  errorTitle: {
+    fontSize: fontSize.itemName,
+    fontWeight: 'bold',
+    color: colors.hazardous,
+    marginBottom: spacing.xs,
+    textAlign: 'center',
+  },
+  errorMessage: {
+    fontSize: fontSize.body,
+    color: colors.textSecondary,
+    textAlign: 'center',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: spacing.xl,
+  },
+  emptyEmoji: {
+    fontSize: 32,
+    marginBottom: spacing.sm,
+  },
+  emptyText: {
+    fontSize: fontSize.body,
+    color: colors.textSecondary,
+    textAlign: 'center',
   },
 });
