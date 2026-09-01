@@ -1,4 +1,5 @@
 import { View, StyleSheet } from 'react-native';
+import { Comet } from './Comet';
 
 const STAR_COUNT = 40;
 
@@ -27,6 +28,7 @@ export function Starfield() {
           ]}
         />
       ))}
+       <Comet />
     </View>
   );
 }

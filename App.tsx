@@ -34,34 +34,36 @@ export default function App() {
         {error && <Text>Error: {error}</Text>}
         {!loading && !error && (
           <>
-            <Text style={styles.title}>NEO Monitor</Text>
-            <RotatingEarth />
-            {Platform.OS === 'ios' ? (
-              <DateTimePicker
-                value={selectedDate}
-                mode="date"
-                onChange={onDateChange}
-                accessibilityLabel="Select date to view near-Earth objects"
-                themeVariant="dark"
-                accentColor={colors.accent}
-                textColor={colors.textPrimary}
-              />
-            ) : (
-              <Pressable
-                onPress={() =>
-                  DateTimePickerAndroid.open({
-                    value: selectedDate,
-                    mode: 'date',
-                    onChange: onDateChange,
-                  })
-                }
-                style={styles.dateButton}
-                accessibilityRole="button"
-                accessibilityLabel={`Select date to view near-Earth objects. Currently ${selectedDate.toDateString()}`}
-              >
-                <Text style={styles.dateButtonText}>{selectedDate.toDateString()}</Text>
-              </Pressable>
-            )}
+            <Text style={styles.title}>Asteroid Watch</Text>
+            <View style={styles.pickerRow}>
+              <RotatingEarth />
+              {Platform.OS === 'ios' ? (
+                <DateTimePicker
+                  value={selectedDate}
+                  mode="date"
+                  onChange={onDateChange}
+                  accessibilityLabel="Select date to view near-Earth objects"
+                  themeVariant="dark"
+                  accentColor={colors.accent}
+                  textColor={colors.textPrimary}
+                />
+              ) : (
+                <Pressable
+                  onPress={() =>
+                    DateTimePickerAndroid.open({
+                      value: selectedDate,
+                      mode: 'date',
+                      onChange: onDateChange,
+                    })
+                  }
+                  style={styles.dateButton}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Select date to view near-Earth objects. Currently ${selectedDate.toDateString()}`}
+                >
+                  <Text style={styles.dateButtonText}>{selectedDate.toDateString()}</Text>
+                </Pressable>
+              )}
+            </View>
             <Text style={styles.dateText}>{neos.length} objects found near Earth on {selectedDate.toDateString()}</Text>
             <FlatList
               data={neos}
@@ -127,5 +129,10 @@ const styles = StyleSheet.create({
   dateButtonText: {
     color: colors.textPrimary,
     fontSize: fontSize.body,
+  },
+  pickerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
   },
 });
