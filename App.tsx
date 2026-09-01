@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList, Platform, Pressable } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useNeoFeed } from './hooks/useNeoFeed';
 import { NeoListItem } from './components/NeoListItem';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -32,15 +32,32 @@ export default function App() {
         {!loading && !error && (
           <>
             <Text style={styles.title}>Asteroid Monitor</Text>
-            <DateTimePicker
-              value={selectedDate}
-              mode="date"
-              onChange={onDateChange}
-              accessibilityLabel="Select date to view near-Earth objects"
-              themeVariant="dark"
-              accentColor={colors.accent}
-              textColor={colors.textPrimary}
-            />
+            {Platform.OS === 'ios' ? (
+              <DateTimePicker
+                value={selectedDate}
+                mode="date"
+                onChange={onDateChange}
+                accessibilityLabel="Select date to view near-Earth objects"
+                themeVariant="dark"
+                accentColor={colors.accent}
+                textColor={colors.textPrimary}
+              />
+            ) : (
+              <Pressable
+                onPress={() =>
+                  DateTimePickerAndroid.open({
+                    value: selectedDate,
+                    mode: 'date',
+                    onChange: onDateChange,
+                  })
+                }
+                style={styles.dateButton}
+                accessibilityRole="button"
+                accessibilityLabel={`Select date to view near-Earth objects. Currently ${selectedDate.toDateString()}`}
+              >
+                <Text style={styles.dateButtonText}>{selectedDate.toDateString()}</Text>
+              </Pressable>
+            )}
             <Text style={styles.dateText}>{neos.length} objects found near Earth on {selectedDate.toDateString()}</Text>
             <FlatList
               data={neos}
@@ -94,5 +111,17 @@ const styles = StyleSheet.create({
   list: {
     width: '100%',
     flex: 1,
+  },
+  dateButton: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 8,
+    backgroundColor: colors.surface,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
+  },
+  dateButtonText: {
+    color: colors.textPrimary,
+    fontSize: fontSize.body,
   },
 });
