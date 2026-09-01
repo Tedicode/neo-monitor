@@ -24,6 +24,10 @@ Expo SDK 54, React Native 0.81, TypeScript, `@react-native-community/datetimepic
 
 ## Setup
 
+
+**Prerequisites:** Node.js 20.19.4 or later, and the free [Expo Go](https://expo.dev/go) app if you're testing on a phone rather than a simulator.
+
+
 1. Clone the repo and install dependencies:
 
 ```
