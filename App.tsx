@@ -6,6 +6,8 @@ import { useNeoFeed } from './hooks/useNeoFeed';
 import { NeoListItem } from './components/NeoListItem';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { colors, spacing, fontSize } from './theme';
+import { Starfield } from './components/Starfield';
+import { RotatingEarth } from './components/RotatingEarth';
 
 export default function App() {
  const[selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -22,6 +24,7 @@ export default function App() {
   return ( 
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
+      <Starfield />
         <StatusBar style="light" />
         {loading && (
           <View style={styles.loadingContainer}>
@@ -31,7 +34,8 @@ export default function App() {
         {error && <Text>Error: {error}</Text>}
         {!loading && !error && (
           <>
-            <Text style={styles.title}>Asteroid Monitor</Text>
+            <Text style={styles.title}>NEO Monitor</Text>
+            <RotatingEarth />
             {Platform.OS === 'ios' ? (
               <DateTimePicker
                 value={selectedDate}
