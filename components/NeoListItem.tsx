@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { NearEarthObject } from '../types';
+import { colors, spacing, fontSize } from '../theme';
 
 interface Props {
   neo: NearEarthObject;
@@ -14,7 +15,8 @@ export function NeoListItem({ neo }: Props) {
   const maxFt = Math.round(neo.estimated_diameter.feet.estimated_diameter_max);
   const velocityMph = Math.round(Number(approach.relative_velocity.miles_per_hour));
   const missDistanceMiles = Math.round(Number(approach.miss_distance.miles));
-  const hazardText = neo.is_potentially_hazardous_asteroid ? 'Potentially hazardous' : 'Not hazardous';
+  const isHazardous = neo.is_potentially_hazardous_asteroid;
+  const hazardText = isHazardous ? 'Potentially hazardous' : 'Not hazardous';
 
   return (
     <View
@@ -23,21 +25,45 @@ export function NeoListItem({ neo }: Props) {
       accessibilityLabel={`${neo.name}. ${hazardText}. Diameter ${minFt} to ${maxFt} feet. Velocity ${velocityMph.toLocaleString()} miles per hour. Miss distance ${missDistanceMiles.toLocaleString()} miles.`}
     >
       <Text style={styles.name}>{neo.name}</Text>
-      <Text>Diameter: {minFt}–{maxFt} ft</Text>
-      <Text>Velocity: {velocityMph.toLocaleString()} mph</Text>
-      <Text>Miss distance: {missDistanceMiles.toLocaleString()} miles</Text>
-      <Text>{hazardText}</Text>
+      <Text style={styles.detail}>Diameter: {minFt}–{maxFt} ft</Text>
+      <Text style={styles.detail}>Velocity: {velocityMph.toLocaleString()} mph</Text>
+      <Text style={styles.detail}>Miss distance: {missDistanceMiles.toLocaleString()} miles</Text>
+      <Text style={[styles.hazard, isHazardous ? styles.hazardTrue : styles.hazardFalse]}>
+        {hazardText}
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   row: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 8,
+    padding: spacing.md,
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.sm,
   },
   name: {
+    fontSize: fontSize.itemName,
     fontWeight: 'bold',
+    color: colors.textPrimary,
+    marginBottom: spacing.xs,
+  },
+  detail: {
+    fontSize: fontSize.body,
+    color: colors.textSecondary,
+  },
+  hazard: {
+    fontSize: fontSize.body,
+    fontWeight: '600',
+    marginTop: spacing.xs,
+  },
+  hazardTrue: {
+    color: colors.hazardous,
+  },
+  hazardFalse: {
+    color: colors.safe,
   },
 });
