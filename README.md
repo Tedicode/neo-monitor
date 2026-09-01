@@ -4,9 +4,7 @@ A React Native (Expo) app that shows near-Earth objects tracked by NASA on any g
 
 ## Screenshots
 
-![Asteroid Watch showing the list of near-Earth objects for a selected date](screenshots/list-view.PNG)
-![Asteroid Watch's empty state when no objects are found for the selected date](screenshots/empty-list.PNG)
-![Asteroid Watch's error state when the NASA feed request fails](screenshots/error-state.PNG)
+![Asteroid Watch showing the list of near-Earth objects for a selected date](screenshots/list-view.PNG) ![Asteroid Watch's empty state when no objects are found for the selected date](screenshots/empty-list.PNG) ![Asteroid Watch's error state when the NASA feed request fails](screenshots/error-state.PNG)
 
 ## Features
 
